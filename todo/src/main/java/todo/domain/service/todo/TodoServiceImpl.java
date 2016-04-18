@@ -16,32 +16,32 @@ import org.terasoluna.gfw.common.message.ResultMessages;
 import todo.domain.model.Todo;
 import todo.domain.repository.todo.TodoRepository;
 
-@Service// (1)
-@Transactional // (2)
+@Service
+@Transactional
 public class TodoServiceImpl implements TodoService {
 
     private static final long MAX_UNFINISHED_COUNT = 5;
 
-    @Inject// (3)
+    @Inject
     TodoRepository todoRepository;
 
-    // (4)
+    
     public Todo findOne(String todoId) {
         Todo todo = todoRepository.findOne(todoId);
         if (todo == null) {
-            // (5)
+            
             ResultMessages messages = ResultMessages.error();
             messages.add(ResultMessage
                     .fromText("[E404] The requested Todo is not found. (id="
                             + todoId + ")"));
-            // (6)
+            
             throw new ResourceNotFoundException(messages);
         }
         return todo;
     }
 
     @Override
-    @Transactional(readOnly = true) // (7)
+    @Transactional(readOnly = true) 
     public Collection<Todo> findAll() {
         return todoRepository.findAll();
     }
